@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import { getHeader } from "./src/utils/html-template.js";
 
 // Constants
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = false;
 const port = process.env.PORT || 5173;
 const base = process.env.BASE || "/";
 
