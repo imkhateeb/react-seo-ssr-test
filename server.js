@@ -68,13 +68,16 @@ app.use("*", async (req, res) => {
 
     console.log(url);
 
-    if (url === "/about") {
+    if (url === "about") {
       seoTitle = "About Us | DriveX";
       seoDescription = "Learn more about DriveX, our mission, and values.";
-    } else if (url === "/contact") {
+    } else if (url === "contact") {
       seoTitle = "Contact Us | DriveX";
       seoDescription = "Get in touch with DriveX for support or inquiries.";
     }
+
+    console.log(seoTitle);
+    console.log(seoDescription);
 
     const metaTags = getHeader({
       seoTitle,
