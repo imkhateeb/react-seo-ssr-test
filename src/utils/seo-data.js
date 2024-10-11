@@ -1,4 +1,7 @@
-export function generateMetaInfo({ path, city = "", productDetail = {} }) {
+export function generateMetaInfo() {
+  if (window === undefined) return;
+  console.log("Pathname", window.location.pathname);
+  const path = "/";
   switch (path) {
     case "/":
       return {
@@ -7,17 +10,11 @@ export function generateMetaInfo({ path, city = "", productDetail = {} }) {
           "Choose from a variety of Quality Used Bikes. DriveX Certified evaluated at 100+ checkpoints. Benefit from Simple Financing, RC transfer & Free Home Inspections",
         seoImage: "https://s3.drivex.dev/og_image_drivex.png",
       };
-    case `/${city}/buy-two-wheelers/${productDetail?.vehicleId}`:
-      return {
-        seoTitle: `${productDetail?.vehicleName}`,
-        seoDescription: `${productDetail?.vehicleName}`,
-        seoImage: `${productDetail?.imagePaths[0]}`,
-      };
     default:
       return {
-        seoTitle: "Buy and Sell Used Bikes Online | DriveX",
+        seoTitle: "Contact | DriveX",
         seoDescription:
-          "Choose from a variety of Quality Used Bikes. DriveX Certified evaluated at 100+ checkpoints. Benefit from Simple Financing, RC transfer & Free Home Inspections",
+          "I am testing for contact. I had evaluated at 100+ checkpoints. Benefit from Simple Financing, RC transfer & Free Home Inspections",
         seoImage: "https://s3.drivex.dev/og_image_drivex.png",
       };
   }

@@ -35,15 +35,21 @@ if (!isProduction) {
   app.use(base, sirv("./dist/client", { extensions: [] }));
 }
 
-// Serve HTML
 app.use("*", async (req, res) => {
   try {
     const url = req.originalUrl.replace(base, "");
 
+    // Check for a specific route
+    if (url === "/about") {
+      console.log("Server is rendering the About page");
+    } else if (url === "/contact") {
+      console.log("Server is rendering the Contact page");
+    }
+
+    // Continue with SSR logic
     let template;
     let render;
     if (!isProduction) {
-      // Always read fresh template in development
       template = await fs.readFile("./index.html", "utf-8");
       template = await vite.transformIndexHtml(url, template);
       render = (await vite.ssrLoadModule("/src/entry-server.tsx")).render;
@@ -54,11 +60,26 @@ app.use("*", async (req, res) => {
 
     const rendered = await render(url, ssrManifest);
 
+    // Dynamic meta information based on the route
+    let seoTitle = "Buy and Sell Used Bikes Online | DriveX";
+    let seoDescription =
+      "Choose from a variety of Quality Used Bikes. DriveX Certified evaluated at 100+ checkpoints.";
+    let seoImage = "https://picsum.photos/200/300";
+
+    console.log(url);
+
+    if (url === "/about") {
+      seoTitle = "About Us | DriveX";
+      seoDescription = "Learn more about DriveX, our mission, and values.";
+    } else if (url === "/contact") {
+      seoTitle = "Contact Us | DriveX";
+      seoDescription = "Get in touch with DriveX for support or inquiries.";
+    }
+
     const metaTags = getHeader({
-      seoTitle: "Buy and Sell Used Bikes Online | DriveX",
-      seoDescription:
-        "Choose from a variety of Quality Used Bikes. DriveX Certified evaluated at 100+ checkpoints. Benefit from Simple Financing, RC transfer & Free Home Inspections",
-      seoImage: "https://picsum.photos/200/300",
+      seoTitle,
+      seoDescription,
+      seoImage,
     });
 
     const html = template
